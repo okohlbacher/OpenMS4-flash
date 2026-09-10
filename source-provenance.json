@@ -1,0 +1,27 @@
+{
+  "upstream": "https://github.com/OpenMS/OpenMS",
+  "commit": "ca32296038839459d8c9b075b759e285913d6294",
+  "package": "flash",
+  "imported_files": [
+    {
+      "upstream": "src/topp/FLASHDeconv.cpp",
+      "package": "flash",
+      "path": "src/FLASHDeconv.cpp"
+    },
+    {
+      "upstream": "License.txt",
+      "package": "flash",
+      "path": "License.txt"
+    },
+    {
+      "upstream": "AUTHORS",
+      "package": "flash",
+      "path": "AUTHORS"
+    },
+    {
+      "upstream": ".clang-format",
+      "package": "flash",
+      "path": ".clang-format"
+    }
+  ]
+}

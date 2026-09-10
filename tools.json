@@ -1,0 +1,10 @@
+{
+  "package": "OpenMSFLASH",
+  "version": "1.0.0",
+  "tools": [
+    {
+      "name": "FLASHDeconv",
+      "category": "Top-Down"
+    }
+  ]
+}
