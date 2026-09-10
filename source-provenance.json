@@ -23,5 +23,17 @@
       "package": "flash",
       "path": ".clang-format"
     }
-  ]
+  ],
+  "backend_extraction": {
+    "repository": "https://github.com/okohlbacher/OpenMS4-core",
+    "source_revision": "4fdec46b205459b92e7d3b9e56df5d8e912d5c85",
+    "classes": [
+      "FLASHDeconvAlgorithm",
+      "SpectralDeconvolution",
+      "MassFeatureTrace",
+      "Qvalue",
+      "TopDownIsobaricQuantification"
+    ],
+    "shared_scoring": "The two SpectralDeconvolution cosine implementations remain in Core PeakGroupScoring; backend public methods delegate to them."
+  }
 }

@@ -1,15 +1,24 @@
 # OpenMSFLASH 1.0.0 experimental
 
-Independent source package: 1 command-line tools. Requires the exact OpenMS core and OpenMSCLI commits in `dependencies.lock.json` installed in `CMAKE_PREFIX_PATH`. No parent source/build tree is used.
+Independent FLASH algorithms and command-line tools, built against the exact installed Core and CLI revisions in `dependencies.lock.json`. The package exports `OpenMS::FLASH` and owns `FLASHDeconvAlgorithm`, `SpectralDeconvolution`, `MassFeatureTrace`, `Qvalue`, `TopDownIsobaricQuantification`, and the FLASHDeconv executable. FLASHDeconv is the only FLASH executable source present in this checkout; FLASHIda mentions describe algorithm modes. Web applications are separate products.
+
+Core retains every file-format reader/writer, including FLASHDeconvFeatureFile and FLASHDeconvSpectrumFile. Their shared records (`FLASHHelperClasses`, `PeakGroup`, `DeconvolvedSpectrum`) and `PeakGroupScoring` also stay in Core. Shared isotope scoring has one Core implementation; the existing SpectralDeconvolution methods forward to it. Core does not link this backend.
+
+Use the same compiler and build type as the installed SDKs. With matching Debug Core, Core TestSupport, and CLI installed:
 
 ```sh
-cmake -S . -B build -DCMAKE_PREFIX_PATH=/sdk/openms4 -DCMAKE_INSTALL_PREFIX=/sdk/openms4
-cmake --build build --parallel 4
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_PREFIX_PATH=/sdk/openms4 -DCMAKE_INSTALL_PREFIX=/sdk/openms4
+cmake --build build --parallel 2
 ctest --test-dir build --output-on-failure
 cmake --install build
 ```
 
-Set `OPENMS_TOOL_PREFIX_PATH` to installation prefixes to discover independently installed tools. Scientific algorithms, including FLASH and OpenSWATH algorithms, remain in core; this package owns their executable front ends. Product version is independent of the core version. All existing numerical fixtures and the original suite are preserved in OpenMS4-test-data. Adapters still require their documented external executables; those are not silently downloaded or bundled.
+The default tests include four native class/integration tests and two executable metadata tests. Run metadata tests before installing this build into a prefix that is already discovered by the registry: the build and installed manifests both register FLASHDeconv, and duplicate registrations intentionally fail. Use a fresh validation prefix or isolate tool discovery while testing.
+
+`OPENMSFLASH_BUILD_TOOLS=OFF` builds and installs the backend without requiring CLI, for C++ or optional Python consumers. With `BUILD_TESTING=OFF`, backend builds need only the pinned Core SDK; tests additionally require its installed TestSupport. C++ consumers use `find_package(OpenMSFLASH 1.0.0 EXACT CONFIG REQUIRED)` and link `OpenMS::FLASH`; its configuration checks the required Core revision. The moved header paths and class names remain the same, while their symbols now come from this library. Rebuild consumers when adopting this package boundary.
+
+The package owns its moved class fixtures. The former deconvolution-driven Core DeconvolvedSpectrum test is preserved as `DeconvolvedSpectrum_integration_test`; Core tests now construct domain records directly. Full TOPP numerical fixtures remain in the pinned TestData package. Set `OPENMS_TOOL_PREFIX_PATH` to installation prefixes for executable discovery.
 
 ## Installation and source identity
 
