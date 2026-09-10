@@ -14,7 +14,7 @@ ctest --test-dir build --output-on-failure
 cmake --install build
 ```
 
-The default tests include four native class/integration tests and two executable metadata tests. Run metadata tests before installing this build into a prefix that is already discovered by the registry: the build and installed manifests both register FLASHDeconv, and duplicate registrations intentionally fail. Use a fresh validation prefix or isolate tool discovery while testing.
+The default tests include five native class/integration tests and two executable metadata tests. Run metadata tests before installing this build into a prefix that is already discovered by the registry: the build and installed manifests both register FLASHDeconv, and duplicate registrations intentionally fail. Use a fresh validation prefix or isolate tool discovery while testing.
 
 `OPENMSFLASH_BUILD_TOOLS=OFF` builds and installs the backend without requiring CLI, for C++ or optional Python consumers. With `BUILD_TESTING=OFF`, backend builds need only the pinned Core SDK; tests additionally require its installed TestSupport. C++ consumers use `find_package(OpenMSFLASH 1.0.0 EXACT CONFIG REQUIRED)` and link `OpenMS::FLASH`; its configuration checks the required Core revision. The moved header paths and class names remain the same, while their symbols now come from this library. Rebuild consumers when adopting this package boundary.
 

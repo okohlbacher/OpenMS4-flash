@@ -52,7 +52,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/OpenMSFLASHConfig.cmake
 if(BUILD_TESTING)
   set(CF_OPENMS_TEST_DATA_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tests/data/")
   configure_file(tests/test_config.h.in generated/OpenMS/test_config.h @ONLY)
-  foreach(name FLASHDeconvAlgorithm SpectralDeconvolution MassFeatureTrace DeconvolvedSpectrum_integration)
+  foreach(name FLASHDeconvAlgorithm SpectralDeconvolution MassFeatureTrace DeconvolvedSpectrum_integration TopDownIsobaricQuantification)
     add_executable(${name}_test tests/source/${name}_test.cpp ${OpenMS_TEST_SUPPORT_SOURCE})
     target_link_libraries(${name}_test PRIVATE OpenMS::FLASH OpenMS::TestFramework)
     target_include_directories(${name}_test PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/generated)
@@ -103,7 +103,7 @@ if(OPENMS4_REGRESSION_TESTS)
   openms4_find_package(OpenMSTestData)
   find_package(Python3 REQUIRED COMPONENTS Interpreter)
   add_test(NAME TOPP_FLASHDeconv_1 COMMAND $<TARGET_FILE:FLASHDeconv> -test
-    -in ${OpenMSTestData_TOPP_DIR}/FLASHDeconv_sample_input.mzML -out ${CMAKE_CURRENT_BINARY_DIR}/FLASHDeconv_1.tsv)
+    -in ${OpenMSTestData_TOPP_DIR}/FLASHDeconv_sample_input.mzML -out ${CMAKE_CURRENT_BINARY_DIR}/FLASHDeconv_1.tsv -keep_empty_out)
   add_test(NAME TOPP_FLASHDeconv_1_science COMMAND ${Python3_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/compare_features.py
     ${CMAKE_CURRENT_BINARY_DIR}/FLASHDeconv_1.tsv

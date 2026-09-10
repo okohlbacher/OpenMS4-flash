@@ -138,3 +138,9 @@ the authors tag in the respective file header.
  - Witold Wolski
  - Xiao Liang
  - Yasset Perez-Riverol
+
+Experimental OpenMS 4 Linux validation
+-------------------------------------
+The floating-point tolerance fixes and regression tests were developed with Codex
+assistance for Oliver Kohlbacher's private package experiment. Upstream author
+attribution above is retained; AI assistance is not an additional human contributor.
