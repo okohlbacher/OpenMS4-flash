@@ -1,9 +1,9 @@
 cask "openms4-flash" do
   arch arm: "arm64", intel: "x64"
 
-  version "1.0.0-ci.1,3fd2a9468191"
-  sha256 arm:   "098e25612866438884dc4af02b4a9d8b993f8f5cfc6b152e95e0d79620d201d7",
-         intel: "d1043f87ce130892de13fa6c4efd2cf8077ba836001c31114b4cf73bd82dcb04"
+  version "1.0.0-ci.2,b2c6771de774"
+  sha256 arm:   "31130be85fa8fb02a8720660d64be661452baa4db9e036cc6de8a68d7f5e2da0",
+         intel: "f789e2d8e821f36995dd268601cc28306a36bcf0be6343ab2c6c4803d95fc7ea"
 
   url "https://github.com/okohlbacher/OpenMS4-flash/releases/download/" \
       "flash-v#{version.csv.first}/OpenMS4-flash-macos-#{arch}-Homebrew-#{version.csv.second}.tar.gz"
