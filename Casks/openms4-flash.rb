@@ -1,9 +1,9 @@
 cask "openms4-flash" do
   arch arm: "arm64", intel: "x64"
 
-  version "1.0.0-ci.2,b2c6771de774"
-  sha256 arm:   "31130be85fa8fb02a8720660d64be661452baa4db9e036cc6de8a68d7f5e2da0",
-         intel: "f789e2d8e821f36995dd268601cc28306a36bcf0be6343ab2c6c4803d95fc7ea"
+  version "1.0.0-ci.3,0b0dfe14e4c4"
+  sha256 arm:   "8de891171e9e59d84f967c8b8c7754669187a68daf9ffec3f3bec11f426c6d03",
+         intel: "8ed9b3092836060025cf786bd88d5ee9db26078e6319098cea090b877dffa107"
 
   url "https://github.com/okohlbacher/OpenMS4-flash/releases/download/" \
       "flash-v#{version.csv.first}/OpenMS4-flash-macos-#{arch}-Homebrew-#{version.csv.second}.tar.gz"
@@ -11,14 +11,22 @@ cask "openms4-flash" do
   desc "Command-line mass-spectrometry tools built against the OpenMS Core SDK"
   homepage "https://github.com/okohlbacher/OpenMS4-flash"
 
-  disable! date:    "2026-09-14",
-           because: "was built against openms4-core 4.0.0-ci.2, and the tap now serves a binary-incompatible newer Core"
-
   depends_on formula: "okohlbacher/openms4-core/openms4-core"
   depends_on macos: :sequoia
 
   payload = "OpenMS4-flash-macos-#{arch}-Homebrew-#{version.csv.second}"
   binary "#{payload}/bin/FLASHDeconv"
+
+  # libOpenMS has no versioned name, so a payload only runs with the Core it was built against.
+  preflight do
+    config = "#{HOMEBREW_PREFIX}/opt/openms4-core/lib/cmake/OpenMS/OpenMSConfig.cmake"
+    core = File.exist?(config) ? File.read(config)[/set\(OpenMS_SOURCE_REVISION "([0-9a-f]{40})"\)/, 1] : nil
+    next if core == "ac41cc177023e24a8fbc711a6ce9010187c54c44"
+
+    raise Cask::CaskError, "openms4-flash #{version.csv.first} was built against openms4-core ac41cc177023, " \
+                           "but the installed openms4-core is #{core&.slice(0, 12) || "unknown"}. " \
+                           "Install the openms4-flash release built for the installed Core."
+  end
 
   postflight_steps do
     run "/usr/bin/xattr",
