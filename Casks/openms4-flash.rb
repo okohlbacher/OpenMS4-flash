@@ -1,9 +1,9 @@
 cask "openms4-flash" do
   arch arm: "arm64", intel: "x64"
 
-  version "1.0.0-ci.3,0b0dfe14e4c4"
-  sha256 arm:   "8de891171e9e59d84f967c8b8c7754669187a68daf9ffec3f3bec11f426c6d03",
-         intel: "8ed9b3092836060025cf786bd88d5ee9db26078e6319098cea090b877dffa107"
+  version "1.0.0-ci.4,3b5b6e65422a"
+  sha256 arm:   "b321c15822c647cce44d0d3a769513468f7011c762764b28faf064141424ab2d",
+         intel: "2d940d44d1584bcb58340abee814418ee173e37d92b6896e2aaec5e9a72e6318"
 
   url "https://github.com/okohlbacher/OpenMS4-flash/releases/download/" \
       "flash-v#{version.csv.first}/OpenMS4-flash-macos-#{arch}-Homebrew-#{version.csv.second}.tar.gz"
@@ -21,9 +21,9 @@ cask "openms4-flash" do
   preflight do
     config = "#{HOMEBREW_PREFIX}/opt/openms4-core/lib/cmake/OpenMS/OpenMSConfig.cmake"
     core = File.exist?(config) ? File.read(config)[/set\(OpenMS_SOURCE_REVISION "([0-9a-f]{40})"\)/, 1] : nil
-    next if core == "ac41cc177023e24a8fbc711a6ce9010187c54c44"
+    next if core == "84847138c0de67149601aaa860af7ac8e2e64534"
 
-    raise Cask::CaskError, "openms4-flash #{version.csv.first} was built against openms4-core ac41cc177023, " \
+    raise Cask::CaskError, "openms4-flash #{version.csv.first} was built against openms4-core 84847138c0de, " \
                            "but the installed openms4-core is #{core&.slice(0, 12) || "unknown"}. " \
                            "Install the openms4-flash release built for the installed Core."
   end
