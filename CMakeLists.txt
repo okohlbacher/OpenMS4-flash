@@ -18,14 +18,6 @@ add_library(OpenMS_FLASH SHARED
   source/ANALYSIS/TOPDOWN/Qvalue.cpp
   source/ANALYSIS/TOPDOWN/TopDownIsobaricQuantification.cpp)
 add_library(OpenMS::FLASH ALIAS OpenMS_FLASH)
-
-# MSVC reports C4244 from inside <xutility> for Core's ClusterHierarchical::cluster, which takes
-# the bin size as double and hands it to BinnedSpectrum's float parameter. The conversion is in an
-# imported Core header, so no change here can silence it individually; drop the suppression once
-# Core casts at that call site. GCC and Clang do not report it: they see Core as a system include.
-if(OPENMS4_WARNINGS_AS_ERRORS AND MSVC)
-  target_compile_options(OpenMS_FLASH PRIVATE /wd4244)
-endif()
 set_target_properties(OpenMS_FLASH PROPERTIES EXPORT_NAME FLASH VERSION ${PROJECT_VERSION} SOVERSION 1)
 target_compile_features(OpenMS_FLASH PUBLIC cxx_std_23)
 target_link_libraries(OpenMS_FLASH PUBLIC OpenMS::Core PRIVATE Eigen3::Eigen)
